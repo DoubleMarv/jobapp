@@ -10,10 +10,10 @@ v-bind:location="item.Location"
 v-bind:description="item.Description"
 />
 </div>
-Hey
-<div v-for="job in makealldata.docs">
-  {{job.id}}
-</div>
+
+
+
+
 
   </section>
 </template>
@@ -31,7 +31,6 @@ import { getFirestore, collection, query, where, getDocs } from "firebase/firest
     Card
   },
 
-
         head: {
           title: 'Job App',
           meta: [
@@ -45,50 +44,43 @@ import { getFirestore, collection, query, where, getDocs } from "firebase/firest
         data() {
           return {
             jobsall:[],
-            loggedinuser:[],
-            makealldata:[]
+            loggedinuser:[]
           }
         },
 
 
-  async fetch() {
-    const db = this.$fire.firestore;
-    const docs = await db.collection('jobs').get();
-docs.forEach (doc => {
-    // console.log(`ID: ${doc.id}`);
-    // console.log(doc.data());
-
-this.jobsall.push(doc.data());
-  });
-  },
 
         computed: {
 
         },
 
         methods: {
+
+
+addJob(jobname){
+  const db = this.$fire.firestore;
+  const data = {
+'Budget':"100",
+'Description': "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+'Location':"Dublin",
+'Need by date':"22/4/2025",
+'title':jobname
+};
+// let stampo = db.FieldValue.serverTimestamp();
+// Add a new document in collection "cities" with ID 'LA'
+const res = db.collection('jobs').doc('3').set(data);
+}
+
         },
 
 
 mounted () {
 // this.getMarker();
-if(this.$fire.auth.currentUser){
-  this.loggedinuser = this.$fire.auth.currentUser
-}
+this.addJob('Builder');
 
 console.log('logged'+this.$fire.auth.currentUser);
 },
 
-
-created() {
-    this.$nuxt.$on('getalldata', data => {
-     this.makealldata = data._delegate
-      })
-    },
-beforeDestroy() {
-      // $off method will turn off the event listner
-      this.$nuxt.$off('getalldata');
-  },
 // async getMarker() {
 //   const db = this.$fire.firestore;
 //     const snapshot = await db.firestore().collection('jobs').get()

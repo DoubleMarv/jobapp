@@ -56,12 +56,24 @@ export default {
   measurementId: "G-K2FDQSPTSX"
         },
         services: {
-          firestore: true // Just as example. Can be any other service.
+          firestore: true,
+          auth: true,
         }
       }
     ]
   ],
 
+auth: {
+  persistence: 'local', // default
+  initialize: {
+    onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
+    onAuthStateChangedAction: 'onAuthStateChangedAction',
+    subscribeManually: false
+  },
+  ssr: false, // default
+  emulatorPort: 9099,
+  emulatorHost: 'http://localhost',
+},
 
 // database: {
 //   emulatorPort: 9000,
